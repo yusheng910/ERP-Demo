@@ -1,0 +1,70 @@
+﻿@model List<prjErpDemo.ViewModels.OrderVM>
+
+@{
+    ViewData["Title"] = "Order List";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/frontend/OrderList.css" />
+}
+
+<h2>Order list</h2>
+
+<p>
+    <a asp-action="CreateOrder">Create new order</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order ID
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>
+                Total Amount
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Shipped Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderID)
+                </td>
+                <td class="date">
+                    @Html.DisplayFor(modelItem => item.orderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.totalAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderStatus)
+                </td>
+                <td class="date">
+                    @Html.DisplayFor(modelItem => item.shippedDate)
+                </td>
+                <td>
+                    <a asp-action="UpdateOrder" asp-route-id="@item.orderID">Check and update status</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/js/frontend/OrderList.js"></script>
+}

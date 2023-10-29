@@ -1,0 +1,58 @@
+﻿@model IEnumerable<prjErpDemo.Models.Product>
+
+@{
+    ViewData["Title"] = "ProductList2";
+}
+
+<h2>Product List using Product Model</h2>
+
+<p>
+    <a asp-action="CreateProduct">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Product Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Stock Quantity
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Supplier
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

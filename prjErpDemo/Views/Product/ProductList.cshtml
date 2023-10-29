@@ -1,0 +1,71 @@
+﻿@model List<prjErpDemo.ViewModels.ProductVM>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/frontend/ProductList.css" />
+}
+
+<h2>Product list</h2>
+
+<p>
+    <a asp-action="CreateProduct">Add new product</a>
+</p>
+<input type="text" id="searchInput" placeholder="Enter keyword" />
+<button id="searchButton">Search</button>
+<div class="product-list">
+    <table class="table table-bordered">
+        <thead class="table-head">
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Stock Quantity
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Supplier
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stockQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.categoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supplierName)
+                    </td>
+                    <td>
+                        <a href="/product/updateproduct/@item.productID">Edit</a> |
+                        <a class="anchor-delete-product" href="" data-id="@item.productID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script src="~/js/frontend/ProductList.js"></script>
+}
+
+

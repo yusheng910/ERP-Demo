@@ -1,0 +1,67 @@
+﻿@model prjErpDemo.Models.Product
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<h2>Add new product</h2>
+
+<h4>Product info</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateProduct">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StockQuantity" class="control-label"></label>
+                <input asp-for="StockQuantity" class="form-control" type="number" min="1" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select name="CategoryID" class="form-control">
+                    <option value="">-Select Category-</option>
+                    @foreach (var category in ViewBag.Category)
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label asp-for="SupplierID" class="control-label"></label>
+                <select name="SupplierID" class="form-control">
+                    <option value="">-Select Supplier-</option>
+                    @foreach (var supplier in ViewBag.Supplier)
+                    {
+                        <option value="@supplier.Value">@supplier.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ProductList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

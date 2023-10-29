@@ -1,0 +1,56 @@
+﻿@model IEnumerable<prjErpDemo.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Supplier List";
+}
+
+<h2>Supplier list</h2>
+
+<p>
+    <a asp-action="CreateSupplier">Add new supplier</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <a asp-action="UpdateSupplier" asp-route-id="@item.SupplierID">Edit</a> |
+                    <a class="anchor-delete-supplier" href="" data-id="@item.SupplierID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/js/frontend/SupplierList.js"></script>
+}

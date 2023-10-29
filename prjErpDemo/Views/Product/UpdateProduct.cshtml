@@ -1,0 +1,69 @@
+﻿@model prjErpDemo.ViewModels.ProductVM
+
+@{
+    ViewData["Title"] = "Update Product";
+}
+
+<h2>Update product</h2>
+
+<h4>Product info</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateProduct">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.productID" value="@Model.productID" />
+            <div class="form-group">
+                <label asp-for="@Model.productName" class="control-label"></label>
+                <input asp-for="@Model.productName" class="form-control" />
+                <span asp-validation-for="@Model.productName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.price" class="control-label"></label>
+                <input asp-for="@Model.price" class="form-control" />
+                <span asp-validation-for="@Model.price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.stockQuantity" class="control-label"></label>
+                <input asp-for="@Model.stockQuantity" class="form-control" />
+                <span asp-validation-for="@Model.stockQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.categoryID" class="control-label"></label>
+                <select asp-for="@Model.categoryID" class="form-control">
+                    @foreach (var category in ViewBag.Category)
+                    {
+                        int categoryValue = Convert.ToInt32(category.Value);
+                        <option value="@category.Value" selected="@(categoryValue == Model.categoryID)">@category.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:10px;">
+                <label asp-for="@Model.supplierID" class="control-label"></label>
+                <select asp-for="@Model.supplierID" class="form-control">
+                    @foreach (var supplier in ViewBag.Supplier)
+                    {
+                        int supplierValue = Convert.ToInt32(supplier.Value);
+                        <option value="@supplier.Value" selected="@(supplierValue == Model.supplierID)">@supplier.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ProductList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

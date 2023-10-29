@@ -1,0 +1,14 @@
+﻿.container {
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.order-info {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+select.form-control {
+    width: 300px; 
+}

@@ -1,0 +1,19 @@
+﻿.product-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.order-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.container {
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+}

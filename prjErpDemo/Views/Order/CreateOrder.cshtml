@@ -1,0 +1,103 @@
+﻿@model prjErpDemo.ViewModels.CreateOrderVM
+
+@{
+    ViewData["Title"] = "Create Order";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/frontend/CreateOrder.css" />
+}
+
+<h2>Create order</h2>
+
+<h4>Order info</h4>
+<hr />
+<div class="row">
+
+    <form asp-action="CreateOrder">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label asp-for="@Model.customerID" class="control-label">Select customer</label>
+        <select asp-for="@Model.customerID" class="form-control">
+            @foreach (var customer in @Model.customers)
+            {
+                <option value="@customer.CustomerID">@customer.CustomerName</option>
+            }
+        </select>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="position-relative card table-nowrap table-card">
+                        <div class="card-header align-items-center">
+                            <h5 class="mb-0">Product list</h5>
+                        </div>
+                        <div class="table-responsive product-list">
+                            <table class="table mb-0">
+                                <thead class="small text-uppercase bg-body text-muted">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>price</th>
+                                        <th>Stock</th>
+                                        <th>Add</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in Model.products)
+                                    {
+                                        <tr class="align-middle" id="@product.ProductID">
+                                            <td>@product.ProductName</td>
+                                            <td>$@product.Price</td>
+                                            <td class="stock-td">@product.StockQuantity</td>
+                                            <td>
+                                                <button type="button" data-productid="@product.ProductID" class="btn btn-primary add-product">Add</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative card table-nowrap table-card">
+                        <div class="card-header align-items-center">
+                            <h5 class="mb-0">Order List</h5>
+                        </div>
+                        <div class="table-responsive order-list">
+                            <table class="table mb-0">
+                                <thead class="small text-uppercase bg-body text-muted">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>price</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="product-purchased">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#!" class="btn btn-gray total">Total Amount: $0</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        <script src="~/js/frontend/CreateOrder.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

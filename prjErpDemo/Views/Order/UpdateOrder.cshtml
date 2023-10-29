@@ -1,0 +1,114 @@
+﻿@model prjErpDemo.ViewModels.OrderVM
+
+@{
+    ViewData["Title"] = "Check&Update";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/frontend/UpdateOrder.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+}
+
+<h2>Check and update order status</h2>
+
+<h4>Order detail</h4>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="UpdateOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="current-order-status" value="@Model.orderStatusID" />
+            <input type="hidden" asp-for="@Model.orderID" value="@Model.orderID" />
+            <div class="form-group">
+                <div class="order-info customer">Customer: @Model.customerName</div>
+                <input type="hidden" asp-for="@Model.customerID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <div id="order-date" class="order-info"></div>
+                <input type="hidden" asp-for="@Model.orderDate" class="form-control order-date" />
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <div class="position-relative card table-nowrap table-card">
+                            @{
+                                decimal totalAmount = 0;
+                                <div class="card-header align-items-center">
+                                    <h5 class="mb-0">Order Details</h5>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="small text-uppercase bg-body text-muted">
+                                            <tr>
+                                                <th>Detail ID</th>
+                                                <th>Product</th>
+                                                <th>Unit price</th>
+                                                <th>Quantity</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var orderDetail in Model.orderDetails)
+                                            {
+                                                decimal unitPrice = orderDetail.Product.Price;
+                                                int quntity = orderDetail.Quantity;
+                                                decimal amount = unitPrice * quntity;
+                                                totalAmount += amount;
+                                                <tr class="align-middle">
+                                                    <td>
+                                                        #
+                                                        @orderDetail.OrderDetailID
+                                                    </td>
+                                                    <td>@orderDetail.Product.ProductName</td>
+                                                    <td>$@unitPrice</td>
+                                                    <td>@quntity</td>
+                                                    <td>
+                                                        <span class="badge fs-6 fw-normal bg-tint-success text-success">$@amount</span>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <a href="#!" class="btn btn-gray">Total Amount: $@totalAmount</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.orderStatusID" class="control-label">Order Status</label>
+                <select asp-for ="@Model.orderStatusID" class="form-control">
+                    @foreach (var status in ViewBag.Status)
+                    {
+                        int statusValue = Convert.ToInt32(status.Value);
+                        <option value="@status.Value" selected="@(statusValue == Model.orderStatusID)">@status.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom:10px;">
+                <div id="shipped-date" class="order-info"></div>
+                <input type="hidden" asp-for="@Model.shippedDate" class="form-control shipped-date" />
+            </div>
+            <div class="form-group">
+                <input id="confirm-change" type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="OrderList">Cancel and back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        <script src="~/js/frontend/UpdateOrder.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

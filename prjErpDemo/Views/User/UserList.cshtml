@@ -1,0 +1,53 @@
+﻿@model IEnumerable<prjErpDemo.Models.User>
+
+@{
+    ViewData["Title"] = "UserList";
+}
+
+<h2>User list</h2>
+
+<p>
+    <a asp-action="CreateUser">Create new user</a>
+</p>
+<div class="col-md-6">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Account Name
+                </th>
+                <th>
+                    Access Level
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountName)
+                    </td>
+                    <td>
+                        @if (item.Permission == 1)
+                        {
+                            @:admin
+                        }
+                        else if (item.Permission == 2)
+                        {
+                            @:viewer
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="UpdateUser" asp-route-id="@item.UserID">Set access level</a> |
+                        <a class="anchor-delete-user" href="" data-id="@item.UserID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script src="~/js/frontend/UserList.js"></script>
+}
