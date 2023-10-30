@@ -71,7 +71,7 @@ namespace prjErpDemo.Controllers
                     shippedDate = o.ShippedDate != null ? o.ShippedDate.Value.ToString("yyyy-MM-dd HH:mm:ssZ") : null,
                     totalAmount = o.OrderDetails.Sum(od => od.Product.Price * od.Quantity)
                 })
-                .OrderBy(o => o.order.OrderDate)
+                .OrderByDescending(o => o.order.OrderDate)
                 .ToList();
 
             return View(orderList);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using prjErpDemo.Models;
 using prjErpDemo.ViewModels;
 using System.Diagnostics;
@@ -21,7 +22,20 @@ namespace prjErpDemo.Controllers
         {
             if (HttpContext.Session.Keys.Contains("Login"))
             {
-                return View();
+                List<OrderVM> orderList = _db.Orders
+                    .Include(o => o.Customer)
+                    .Include(o => o.OrderStatus)
+                    .Include(o => o.OrderDetails)
+                    .Select(o => new OrderVM
+                    {
+                        order = o,
+                        orderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm:ssZ"),
+                        shippedDate = o.ShippedDate != null ? o.ShippedDate.Value.ToString("yyyy-MM-dd HH:mm:ssZ") : null,
+                        totalAmount = o.OrderDetails.Sum(od => od.Product.Price * od.Quantity)
+                    })
+                    .OrderByDescending(o => o.order.OrderDate)
+                    .ToList();
+                return View(orderList);
             }
             return RedirectToAction("Login");
         }
