@@ -44,55 +44,5 @@ namespace prjErpDemo.APIs
                 return StatusCode(500, new { status = "Failed to get data", error = ex });
             }
         }
-
-        [HttpGet("YearlySales")]
-        public ActionResult GetChart2()
-        {
-            try
-            {
-                var result = new List<MonthlySalesByCategory>();
-
-                for (int month = 1; month <= 12; month++)
-                {
-                    var monthlySales = new MonthlySalesByCategory { Month = month };
-
-                    var categories = _db.Categories.ToList();
-
-                    foreach (var category in categories)
-                    {
-                        var totalSales = _db.OrderDetails
-                            .Where(od => od.Order.OrderDate.Month == month 
-                                && od.Product.CategoryID == category.CategoryID
-                                && od.Order.OrderStatusID == 3)
-                            .Sum(od => od.Quantity * od.Product.Price);
-
-                        monthlySales.AddCategorySales(category.CategoryName, totalSales);
-                    }
-
-                    result.Add(monthlySales);
-                }
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { status = "Failed to get data", error = ex });
-            }
-        }
-
-        public class MonthlySalesByCategory
-        {
-            public int Month { get; set; }
-            public Dictionary<string, decimal> CategorySales { get; set; }
-
-            public MonthlySalesByCategory()
-            {
-                CategorySales = new Dictionary<string, decimal>();
-            }
-
-            public void AddCategorySales(string category, decimal sales)
-            {
-                CategorySales.Add(category, sales);
-            }
-        }
     }
 }
